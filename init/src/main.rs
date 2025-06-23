@@ -77,10 +77,8 @@
 //     println!("{}", a)
 // }
 
-
 ///////////////////////////////////////////////////////////Generics
 ///
-
 // struct Rect<T> {
 //     height: T,
 //     width: T,
@@ -305,6 +303,80 @@
 //     print!("{:?} {:?}", u1, u2);
 // }
 
-
 // /////////////////////////////////////////////////////////////////////////////////////////////// Serde ///////////////////////////////////////
+// use serde::{Deserialize, Serialize};
 
+// #[derive(Serialize, Deserialize, Debug,Clone)]
+// struct User {
+//     username: String,
+//     password: String,
+// }
+
+// fn main() {
+//     // // Serialization
+
+//     // let u = User {
+//     //     username: String::from("Sarfraz"),
+//     //     password: String::from("123321"),
+//     // };
+
+//     // let serialized_string = serde_json::to_string(&u);
+//     // let user_string = serialized_string.unwrap();
+//     // // println!("{}", user_string);
+//       // match serialized_string {
+//     //     Ok(str) => println!("{}", str),
+//     //     Err(_) => println!("Error while converting to string"),
+//     // }
+
+//     // // Deserialization
+//     // let s = String::from("{\"username\":\"Sarfraz\", \"password\":\"12321\"}");
+//     // let u: Result<User, serde_json::Error> = serde_json::from_str(&s);
+
+//     // let user_struct = u.unwrap();
+//     // println!("{:?}", user_struct);
+
+// }
+
+// /////////////////////////////////////////////////////////////////////////////////////////////// Borsh ///////////////////////////////////////
+// use borsh::{BorshDeserialize, BorshSerialize};
+
+// #[derive(BorshSerialize, BorshDeserialize, Debug, Clone)]
+// struct User {
+//     username: String,
+//     password: String,
+// }
+
+// fn main() {
+//     let u = User {
+//         username: String::from("Sarfraz"),
+//         password: String::from("123243"),
+//     };
+
+//     let mut v: Vec<u8> = Vec::new();
+//     // serialize
+//     let ans = u.serialize(&mut v);
+//     // deserialize
+//     let user = User::try_from_slice(&v).unwrap();
+
+//     print!("{}", user.username);
+// }
+
+// /////////////////////////////////////////////////////////////////////////  lifetimes /////////////////////
+
+fn main() {
+    let str1 = String::from("Sarfraz");
+    let ans;
+    {
+        let str2 = String::from("Qadri");
+        ans = longest_string(&str1, &str2);
+    }
+
+    println!("{}", ans);
+}
+
+fn longest_string<'a, 'b>(s1: &'a String, s2: &'b String) -> &'a String {
+    if s1.len() > s2.len() {
+        return s1;
+    }
+    return s2;
+}
